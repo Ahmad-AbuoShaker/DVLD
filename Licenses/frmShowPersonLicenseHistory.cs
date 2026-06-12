@@ -1,0 +1,65 @@
+﻿using DVLD_Buisness;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static DVLD.People.Controls.ctrlPersonCardWithFilter;
+
+namespace DVLD.Licenses
+{
+    public partial class frmShowPersonLicenseHistory : Form
+    {
+        private int _PersonID = -1;
+
+        public frmShowPersonLicenseHistory(int PersonID)
+        {
+            InitializeComponent();
+            _PersonID = PersonID;
+        }
+       
+        public frmShowPersonLicenseHistory()
+        {
+            InitializeComponent();
+            
+        }
+
+        private void frmShowPersonLicenseHistory_Load(object sender, EventArgs e)
+        {
+            if (_PersonID != -1)
+            {
+                ctrlPersonCardWithFilter1.LoadPersonInfo(_PersonID);
+                ctrlPersonCardWithFilter1.FilterEnabled = false;
+                ctrlDriverLicenses2.LoudInfoByPersonID(_PersonID);
+            }
+            else
+            {
+                ctrlPersonCardWithFilter1.FilterEnabled=true;
+                ctrlPersonCardWithFilter1.FilterFocus();
+            }
+        }
+        private void ctrlPersonCardWithFilter1_OnPersonSelected(object sender, PersonSelectedEventArgs e)
+        {
+            _PersonID = e.PersonID;
+            if (_PersonID == -1)
+            {
+                ctrlDriverLicenses2.Clear();
+            }
+            else
+            {
+                ctrlDriverLicenses2.LoudInfoByPersonID(_PersonID);
+            }
+        }
+
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();   
+        }
+
+    }
+}
